@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-import playsound
+import multiprocessing
+from playsound import playsound
 
-global number
+counter = 0
 
 def file_open():
     global mp3
@@ -12,15 +13,23 @@ def file_open():
     for i in file:
         mp3.append(i)
         
-def play(input_music):
-    playsound.playsound(input_music)
-def change_music():
-    for i in mp3:
-        play(i)
+def play():
+    global music    
+    try:
+       music = multiprocessing.Process(target=playsound, args=(mp3[counter],))
+       music.start()
+    except:
+        print('\n Error : Invalid Url Address !')
         
-file_open()  
-while True:        
-    change_music()
+def change_music():
+        input('\nPress Enter to Next Music !')
+        music.terminate()
 
+        
+file_open()        
+while True:
+    play()
+    change_music()
+    counter +=1
 
     
