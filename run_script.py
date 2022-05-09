@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-import playsound
+
 from bs4 import BeautifulSoup
 import requests
-    
+import multiprocessing
+from playsound import playsound
+
+
 def banner():
     print("""
                 
@@ -125,16 +128,29 @@ def file_open():
     for i in file:
         mp3.append(i)
         
-def play(input_music):
-    playsound.playsound(input_music)
-    
 def change_music():
-    for i in mp3:
-        play(i)
+        input('''\nPress Enter to Next Music ! \nPress CTRL + Z for exit !
+              ''')
+        music.terminate()
+        
+def play():
+    global music  
+    z = 0
+    try:
+       for i in range(99999):   
+           music = multiprocessing.Process(target=playsound, args=(mp3[z],))
+           music.start()
+           change_music()
+           z +=1
+    except:
+        print('\n Error : Invalid Url Address !')
+        
+
         
  
 
 def run_script():
+
     banner()
     name_input()
     requests_google()
@@ -142,21 +158,21 @@ def run_script():
     link_finder()
     output_google()
     link = links[9:19]
-    
     for z in link:
         input_url(z)
         try:
-            request_site()
-            dl_link()
-            link_filter()
-            output_link()
-            downloadfile()
-            file_open()
-            while True:
-                change_music()
+           request_site()
+           dl_link()
+           link_filter()
+           output_link()
+           downloadfile()
         except:
-            print('The link is not valid')
-    
+                print('The link is not valid')
+    file_open()
+    while True:
+        play()
+        
+     
 
 
 
