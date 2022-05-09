@@ -136,12 +136,24 @@ def change_music():
 def play():
     global music  
     z = 0
-    try:
-       for i in range(99999):   
-           music = multiprocessing.Process(target=playsound, args=(mp3[z],))
-           music.start()
-           change_music()
-           z +=1
+    try:  
+           select_play = input('''
+           Enter The Play Type:
+           a = automatic
+           m = manual
+           ''')
+           if select_play == 'a':
+               while True:
+                   playsound(mp3[z])
+                   z +=1
+               
+               
+           elif select_play =='m':
+               while True:
+                   music = multiprocessing.Process(target=playsound, args=(mp3[z],))
+                   music.start()
+                   change_music()
+                   z +=1
     except:
         print('\n Error : Invalid Url Address !')
         
@@ -169,8 +181,7 @@ def run_script():
         except:
                 print('The link is not valid')
     file_open()
-    while True:
-        play()
+    play()
         
      
 
